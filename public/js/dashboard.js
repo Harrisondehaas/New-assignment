@@ -2,15 +2,14 @@
 
 const $ = (selector) => document.querySelector(selector);
 
-const postalRegEx =
-  /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i;
+
 
 const onReset = (evt) => {
   //TODO:: Reset the reset-able fields
   $("#notifcations").checked = true;
   $("#off").checked = true;
-  $("#location").textContent = 21;
-  $("#tempurature").value = "L7W 4T8";
+  $("#location").textContent = "L7W 4T8";
+  $("#tempurature").value = 21;
 
   evt.preventDefault();
 };
@@ -34,16 +33,31 @@ for(let i = 0; i < lightingModeOptions.length; i++){
 }
   //TODO:: Validate the postal code with the Regular Expression,
   //TODO:: Display an error if not valid
-  let location = $("#location").value
-  
-  if(postalRegEx.test(location)){
+  let location = $("#location").value;
+  const postalRegEx =
+  /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i;
+    if(postalRegEx.test(location)){
+   
 
   }else{
+    alert("Invalid Postal Code Format, Please try again.");
+
 
   }
-
-  //TODO:: Validate the temperature by checking the range and if it's a number
   //TODO:: Display an error if not valid
+  //TODO:: Validate the temperature by checking the range and if it's a number
+  const temperatureInput = $("#temperature");
+
+  const temperatureError = $("#temperature_error");
+
+   if (isNaN(temperatureInput.value) || temperatureInput.value < 5 || temperatureInput.value > 30) {
+
+    temperatureError.textContent = "Temperature must be a number between 5 and 30";
+
+  } else {
+    temperatureError.textContent = "";
+  }
+  const userTemperature = temperatureInput.value;
 
   evt.preventDefault();
 };
