@@ -6,41 +6,67 @@ const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const passwordRegEx = /^(?=.*?[A-Z])(?=.*?[a-z]).{8,}$/;
 
+const resetErrors = () => {
+  $("#name_error").textContent = "";
+  $("#password_error").textContent = "";
+  $("#email_error").textContent = "";
+  $("#dob_error").textContent = "";
+};
+
 const onReset = (evt) => {
-  //TODO:: Reset the reset-able fields
+  resetErrors();
+  // Reset the reset-able fields
+  $("#first_name").value = "";
+  $("#last_name").value = "";
+  $("#email").value = "";
+  $("#password").value = "";
+  $("#confirm_password").value = "";
+  $("#dob").value = "";
+  $("#user_first_name").textContent = "";
+  $("#user_last_name").textContent = "";
+  $("#user_email").textContent = "";
+  $("#user_dob").textContent = "";
+  $("#user_password_last_changed").textContent = "";
 };
 
 const onSubmit = (evt) => {
   resetErrors();
-
-  //TODO:: Use this boolean to keep track of any errors because you need to prevent the settings
-  //       from updating if even one field is wrong
+  // Use this boolean to keep track of any errors because you need to prevent the settings
+  // from updating if even one field is wrong
   let formErrors = false;
 
-  //TODO:: Make sure name fields are not empty
+  let firstName = $("#first_name").value;
+  let lastName = $("#last_name").value;
+  // Make sure name fields are not empty
+  if (firstName == "" || lastName == "") {
+    $("#name_error").textContent = "Name fields cannot be empty.";
+    formErrors = true;
+  }else{
+    $("#user_first_name").textContent = firstName;
+  }
 
-  //TODO:: Validate email with the Regular Expression
+  // Validate email with the Regular Expression
   const email = $("#email").value;
   if (!emailRegEx.test(email)) {
     $("#email_error").textContent = "Invalid Email Format, Please try again.";
     formErrors = true;
   }
 
-  //TODO:: Validate password with the Regular Expression
+  // Validate password with the Regular Expression
   const password = $("#password").value;
   if (!passwordRegEx.test(password)) {
     $("#password_error").textContent = "Invalid Password Format, Please try again.";
     formErrors = true;
   }
 
-  //TODO:: Validate passwords to be matching
+  // Validate passwords to be matching
   const confirmPassword = $("#confirm_password").value;
   if (password !== confirmPassword) {
     $("#password_error").textContent = "Passwords do not match";
     formErrors = true;
   }
 
-  //TODO:: Make sure date of birth is in the past.
+  // Make sure date of birth is in the past.
   let dob = new Date($("#dob").value);
   let now = new Date();
   if (dob > now) {
@@ -48,10 +74,16 @@ const onSubmit = (evt) => {
     formErrors = true;
   }
 
-  //TODO:: check your formErrors boolean and update the fields if still false
+  // Check your formErrors boolean and update the fields if still false
   if (!formErrors) {
-    // TODO:: Submit the form if all validation passes
-    // TODO:: Update the user settings with the new values
+    $("#user_first_name").textContent = firstName;
+    $("#user_last_name").textContent = lastName;
+    $("#user_email").textContent = email;
+    $("#user_dob").textContent = dob.toDateString();
+    let today = new Date();
+    $("#user_password_last_changed").textContent = today.toDateString();
+    // Submit the form if all validation passes
+    // Update the user settings with the new values
   }
 
   evt.preventDefault();

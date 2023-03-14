@@ -13,7 +13,12 @@ const onReset = (evt) => {
 
   evt.preventDefault();
 };
+const resetErrors = ()=> {
+  $("#tempurature_error").textContent="";
+  $("#location_error"),textContent="";
+  
 
+}
 const onSubmit = (evt) => {
   //TODO::Reset any errors before submitting
 
@@ -31,33 +36,52 @@ for(let i = 0; i < lightingModeOptions.length; i++){
     $("#setting_lighting_mode").textContent = lightingModeOptions[i].value
   }
 }
+
+
+
   //TODO:: Validate the postal code with the Regular Expression,
   //TODO:: Display an error if not valid
   let location = $("#location").value;
-  const postalRegEx =
-  /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i;
-    if(postalRegEx.test(location)){
-   
 
-  }else{
+
+  const postalRegEx = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i;
+  
+  if (postalRegEx.test(location)) {
+    $("#setting_location").textContent = location;
+  } else {
     alert("Invalid Postal Code Format, Please try again.");
 
-
   }
+
+
   //TODO:: Display an error if not valid
   //TODO:: Validate the temperature by checking the range and if it's a number
   const temperatureInput = $("#temperature");
 
-  const temperatureError = $("#temperature_error");
+  let temperatureError = $("#temperature_error");
 
-   if (isNaN(temperatureInput.value) || temperatureInput.value < 5 || temperatureInput.value > 30) {
 
-    temperatureError.textContent = "Temperature must be a number between 5 and 30";
+   if (isNaN(temperatureInput.value) || temperatureInput.value == ""){
 
-  } else {
-    temperatureError.textContent = "";
-  }
-  const userTemperature = temperatureInput.value;
+    temperatureError.textContent =
+     "This is not a valid tempurature selection";
+
+  } else if(temperatureInput.value > 30){
+    temperatureError.textContent = 
+    "Max tempurature is 30 degrees.";
+    $("#setting_temperature").textContent = 30;
+
+  }else if(temperatureInput.value < 5) {
+    temperatureError.textContent = 
+    "Min tempurature is 5 degrees";
+    $("#setting_temperature").textContent = 5;
+
+  }else{
+     $("#setting_temperature").textContent = temperatureInput.value
+
+      }
+
+  
 
   evt.preventDefault();
 };
